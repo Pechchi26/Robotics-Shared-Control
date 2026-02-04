@@ -6,7 +6,7 @@ This project requires MuJoCo simulation environment with Unitree robot models an
 
 ## Installation Steps
 
-### 1. Unitree MuJoCo Installation
+### 1. Unitree MuJoCo Installation   
 
 First, install the Unitree MuJoCo environment which provides the robot models and simulation framework.
 
