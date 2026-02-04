@@ -53,3 +53,4 @@ Go2Py provides native MuJoCo simulation support, enabling direct control of the 
 - Ensure MuJoCo is properly installed before installing Go2Py
 - The control interfaces work directly with the MuJoCo simulation environment
 - Both low-level and high-level control modes are supported
+- Computational requirement is moderate; still, CUDA is better than CPU
