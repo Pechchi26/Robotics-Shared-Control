@@ -1,16 +1,4 @@
-## ROBO 666 Shared Control Project Group
-
-Repository for Shared Human-AI Control for Robotics project group.
-
-### Researchers
-
-* Pechchuma Manoharan
-* Rong Guo
-* Anastasiia Nikitina
-
-Mentor: Henry Ascencio Trejo 
-
-## ROBO 666 – Shared Human–AI Control Project
+## ROBO 666 – Shared Human–AI Control Project Group
 
 This repository contains the work of **Project Group1 ROBO 666**, focused on the design and implementation of a **Shared Human–AI Control for Robotics**.
 
