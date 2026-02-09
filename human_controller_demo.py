@@ -1,6 +1,6 @@
 """
 
-human_controller.py
+human_controller_joystick.py
 
 This script initializes a Go2 robot in high-level control mode and allows
 a user to control the robot's movement using a joystick. The joystick inputs
@@ -29,8 +29,10 @@ from Go2Py.sim.mujoco import Go2Sim
 import os
 import csv
 import numpy as np
-from utils import get_goal_from_scene
+from utils0 import get_goal_from_scene
 #from get_viewer_info import check_and_print_camera #uncomment if LiDAR required
+from human_command_visualizer import HumanCommandVisualizer
+
 
 def set_viewer_camera(robot, azimuth=135, elevation=-25, distance=4.0, lookat=None):
     """
@@ -109,9 +111,9 @@ def joystick_input(cmd_queue, stop_event):
             pygame.event.pump()
 
             # Read joystick axes
-            vx = -joystick.get_axis(1) * 1.8   # forward/backward
-            vy = -joystick.get_axis(0) * 1.8    # left/right
-            yaw = -joystick.get_axis(3) * 2   # rotation - PS5 mapping
+            vx = -joystick.get_axis(1) * 1.5   # forward/backward
+            vy = -joystick.get_axis(0) * 1.5    # left/right
+            yaw = -joystick.get_axis(3) * 2.0   # rotation - PS5 mapping
 
             # Read button states
             A = joystick.get_button(0)
@@ -170,6 +172,13 @@ def run_robot(cmd_queue, stop_event):
         distance=12.4, 
         lookat=None
     )
+    
+    #Initiate visualizer
+    viz = HumanCommandVisualizer(
+        title="HUMAN INPUT (JOYSTICK)",
+        vx_max=1.5, vy_max=1.5, yaw_max=2.0
+    )
+    viz.start()
 
     # Read goal from MuJoCo XML
     goal_xy = get_goal_from_scene(robot)     # (x, y) goal position
@@ -197,6 +206,9 @@ def run_robot(cmd_queue, stop_event):
                     robot.sitDownReset()
 
                 robot.stepHighlevel(vx, vy, yaw)
+
+                # Update visualizer
+                viz.update(vx, vy, yaw)
 
                 # Simulation
                 sim_time = robot.data.time 
@@ -236,6 +248,12 @@ def run_robot(cmd_queue, stop_event):
     finally:
         stop_event.set()
         log_file.close()
+
+        try:
+            viz.close()
+        except Exception:
+            pass
+
         print(f"Velocity log saved to {log_path}")
 
 if __name__ == "__main__":
@@ -263,5 +281,8 @@ if __name__ == "__main__":
         stop_event.set()
         p.join()
         print("Program exited cleanly.")
+
+
+
 
 
