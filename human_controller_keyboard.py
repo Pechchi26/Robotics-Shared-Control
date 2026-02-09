@@ -1,5 +1,5 @@
 """
-keyboard_controller_demo_global.py
+human_controller_keyboard.py
 
 Robust keyboard teleop for Go2Sim high-level control using GLOBAL key capture.
 
@@ -36,7 +36,9 @@ import numpy as np
 from Go2Py import ASSETS_PATH
 from Go2Py.sim.mujoco import Go2Sim
 
-from utils import get_goal_from_scene
+from utils0 import get_goal_from_scene
+from human_command_visualizer import HumanCommandVisualizer
+
 
 # Global keyboard listener
 from pynput import keyboard
@@ -135,6 +137,14 @@ def run_robot_keyboard_global():
         xml_path=xml_path,
         dt=0.01
     )
+
+    # Initiate Viz
+    viz = HumanCommandVisualizer(
+        title="HUMAN INPUT (KEYBOARD)",
+        vx_max=1.5, vy_max=1.5, yaw_max=2.0
+    )
+    viz.start()
+
     robot.standUpReset()
     print("Simulation started (GLOBAL keyboard control).")
 
@@ -150,9 +160,9 @@ def run_robot_keyboard_global():
     # --------------------------
     # Control tuning
     # --------------------------
-    VX_SPEED = 1.2   # m/s
-    VY_SPEED = 1.2   # m/s
-    YAW_SPEED = 1.5  # rad/s
+    VX_SPEED = 1.5   # m/s
+    VY_SPEED = 1.5   # m/s
+    YAW_SPEED = 2.0  # rad/s
 
     # --------------------------
     # Logging
@@ -221,6 +231,9 @@ def run_robot_keyboard_global():
             # Apply command
             robot.stepHighlevel(vx, vy, yaw)
 
+            # Update Viz
+            viz.update(vx, vy, yaw)
+
             # Time + goal distance
             sim_time = robot.data.time
             robot_xy = robot.data.qpos[:2]
@@ -255,6 +268,11 @@ def run_robot_keyboard_global():
         except Exception:
             pass
 
+        try:
+            viz.close()
+        except Exception:
+            pass
+
         log_file.close()
         listener.stop()
         print(f"Velocity log saved to {log_path}")
@@ -262,5 +280,8 @@ def run_robot_keyboard_global():
 
 
 if __name__ == "__main__":
+    run_robot_keyboard_global()
+
+
     run_robot_keyboard_global()
 
