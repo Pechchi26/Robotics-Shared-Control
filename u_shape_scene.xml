@@ -1,4 +1,4 @@
-<mujoco model="go2 scene">
+<mujoco model="obstacle_scene">
 <include file="go2.xml"/>
 <statistic center="0 0 0.1" extent="0.8"/>
 <visual>
@@ -15,11 +15,8 @@
 <geom pos="2 -2 0" type="box" size="2.5 0.5 0.5" name="box_3" quat="1.0 0.0 0.0 0.0"/>
 
 
-
-
-
 <site name="goal_marker" pos="6 0.8 0.3" size="0.25" 
-        rgba="0 0 1 0.7" type="sphere"/>
+        rgba="0 0 0.6 1.0" type="sphere"/>
   
   <!-- Визуализация старта -->
   <site name="start_marker" pos="0 0.0 0.2" size="0.15" 
